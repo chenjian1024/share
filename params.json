@@ -1,0 +1,6 @@
+{
+  "name": "masonry 在ios10中布局的坑",
+  "tagline": "解决更新ios10以后 使用masonry布局动态Cell出现约束重复和警告cell高度为0的问题",
+  "body": "在 xcode7 中的代码是这么写\r\n\r\n    [self.lastChildView mas_makeConstraints:^(MASConstraintMaker *make) {\r\n        make.left.right.mas_equalTo(self.contentView);\r\n        make.top.equalTo(self.fromCircleBtn.mas_bottom).offset(RealPoint(20));\r\n        make.height.mas_equalTo(RealPoint(20));\r\n    }];\r\n    \r\n    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {\r\n        make.left.right.top.equalTo(self);\r\n        make.bottom.equalTo(self.bgView.mas_bottom).offset(RealPoint(20));\r\n    }];\r\n在xcode8中会出现一些约束报错的问题\r\n\r\nxcode8中这么写可以解决就解决了 \r\n\r\n[self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {\r\n        make.left.right.mas_equalTo(self.contentView);\r\n        make.top.equalTo(self.fromCircleBtn.mas_bottom).offset(RealPoint(20));\r\n        make.height.mas_equalTo(RealPoint(20));\r\n<font color=Red size=72>make.bottom.equalTo(self.contentView).offset(RealPoint(-20));</font>\r\n       \r\n    }];\r\n    \r\n    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {\r\n        make.left.right.top.bottom.equalTo(self);\r\n    }];\r\n\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
